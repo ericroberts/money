@@ -1,0 +1,19 @@
+name: money
+version: 0.1.0
+
+authors:
+  - Eric Roberts <ericroberts@gmail.com>
+
+targets:
+  money:
+    main: src/money.cr
+
+crystal: 0.28.0
+
+license: MIT
+
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+  money:
+    github: crystal-money/money
