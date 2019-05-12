@@ -1,22 +1,31 @@
 require "../models/expense"
+require "../models/expense_list"
 
 module Repositories
   class Expense
     def self.all
       File.open("data/expenses.json") do |file|
-        JSON.parse(file).as_a.map do |expense_json|
-          Models::Expense.new(
-            id: expense_json["id"].as_s,
-            date: Time.from_json(expense_json["date"].to_json),
-            amount: Money.from_json(expense_json["amount"].to_json),
-            description: expense_json["description"].as_s,
-            category: expense_json["category"].as_s,
-          )
-        end
+        Models::ExpenseList.new(
+          JSON.parse(file).as_a.map do |expense_json|
+            Models::Expense.new(
+              id: expense_json["id"].as_s,
+              date: Time.from_json(expense_json["date"].to_json),
+              amount: Money.from_json(expense_json["amount"].to_json),
+              description: expense_json["description"].as_s,
+              category: expense_json["category"].as_s,
+            )
+          end
+        )
       end
     rescue Errno
       File.write("data/expenses.json", "[]")
-      [] of Models::Expense
+      Models::ExpenseList.new([] of Models::Expense)
+    end
+
+    def self.this_month
+      Models::ExpenseList.new(
+        all.select { |expense| expense.date.month == Time.now.month }
+      )
     end
 
     def self.create(
@@ -39,6 +48,10 @@ module Repositories
           ]
         ).to_json
       )
+    end
+
+    def self.delete_all
+      File.write("data/expenses.json", "[]")
     end
 
     def self.delete(id : String)

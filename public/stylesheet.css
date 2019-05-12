@@ -3,12 +3,20 @@
 }
 
 body {
-  background: #fff;
+  background: #fafafa;
   color: #222;
   font-family: "Fira Mono", sans-serif;
+  font-weight: 400;
   margin: 0 auto;
-  max-width: 50rem;
   padding: 2rem;
+}
+
+body > h1 {
+  font-weight: 500;
+}
+
+small {
+  color: #888;
 }
 
 form.form {
@@ -91,14 +99,44 @@ input:focus {
   outline: none;
 }
 
-#recording {
+section[role="main"] {
   display: grid;
-  grid-template-columns: calc(50% - 1rem) calc(50% - 1rem);
+  grid-template-columns: 20rem calc(100% - 22rem);
   grid-column-gap: 2rem;
 }
 
 #recording input {
   width: 100%;
+}
+
+#reporting .total {
+  float: left;
+  width: calc(50% - 2rem);
+}
+
+#reporting .total:nth-child(2n-1) {
+  margin-right: 1rem;
+}
+
+#reporting .total:nth-child(2n) {
+  margin-left: 1rem;
+}
+
+.total h1 {
+  font-weight: 500;
+}
+
+.total h1 small {
+  font-weight: 400;
+}
+
+.total h2 {
+  font-size: 2.5em;
+}
+
+#transactions {
+  clear: both;
+  padding-top: 2rem;
 }
 
 table {
@@ -114,6 +152,7 @@ td {
 
 th {
   border-bottom: 3px solid #ccc;
+  font-weight: 500;
 }
 
 td {

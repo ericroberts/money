@@ -17,3 +17,5 @@ dependencies:
     github: kemalcr/kemal
   money:
     github: crystal-money/money
+  faker:
+    github: askn/faker
