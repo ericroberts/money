@@ -105,6 +105,10 @@ section[role="main"] {
   grid-column-gap: 2rem;
 }
 
+#recording h1 {
+  font-weight: 500;
+}
+
 #recording input {
   width: 100%;
 }

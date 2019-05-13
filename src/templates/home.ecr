@@ -1,3 +1,32 @@
+<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+<script type="text/javascript">
+  var products = '<%= ENV["PLAID_PRODUCTS"] || "transactions" %>'.split(',');
+  var handler = Plaid.create({
+    apiVersion: 'v2',
+    clientName: 'Plaid Quickstart',
+    env: '<%= ENV["PLAID_ENV"] %>',
+    product: products,
+    key: '<%= ENV["PLAID_PUBLIC_KEY"] %>',
+    onSuccess: function(public_token) {
+      console.log(public_token);
+      fetch(
+        "/access_token",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            public_token: public_token
+          })
+        },
+      );
+    },
+  });
+</script>
+
+<button class="button" type="button" onclick="handler.open()">Connect with Plaid</button>
+
 <section role="main">
   <section id="recording">
     <h1>New transaction</h1>

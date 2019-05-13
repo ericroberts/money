@@ -1,7 +1,10 @@
 require "kemal"
 require "money"
+require "dotenv"
 require "../models/expense"
 require "../repositories/expense"
+
+Dotenv.load
 
 get "/" do
   expenses = Repositories::Expense.this_month.order(:date)
@@ -27,6 +30,20 @@ post "/expenses/:id" do |env|
     Repositories::Expense.delete(env.params.url["id"])
     env.redirect "/"
   end
+end
+
+post "/access_token" do |env|
+  puts env.params.json["public_token"]
+  request = HTTP::Client.post(
+    "https://sandbox.plaid.com/item/public_token/create",
+    headers: HTTP::Headers{"Content-Type" => "application/json"},
+    body: {
+      client_id: ENV["PLAID_CLIENT_ID"],
+      secret: ENV["PLAID_SECRET"],
+      access_token: env.params.json["public_token"],
+    }.to_json
+  )
+  puts request.body
 end
 
 Kemal.run
