@@ -1,0 +1,59 @@
+<script type="text/javascript" src="/change_checkboxes.js"></script>
+<script type="text/javascript" src="/category_picker.js"></script>
+
+<form class="form" method="post" action="/bulk_expenses">
+  <% accounts.each do |account| %>
+    <section>
+      <h1><%= account.name %></h1>
+      <table>
+        <thead>
+          <tr>
+            <th><input type="checkbox" checked /></th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Name</th>
+            <th>Categories</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% account.transactions.each do |transaction| %>
+            <tr>
+              <td>
+                <input
+                  type="checkbox"
+                  value="<%= transaction.id %>"
+                  name="transaction_ids[]"
+                  checked />
+              </td>
+              <td><%= transaction.date.to_s("%Y-%m-%d") %></td>
+              <td><%= transaction.amount %></td>
+              <td>
+                <input
+                  type="text"
+                  name="transactions[<%= transaction.id %>][name]"
+                  value="<%= transaction.name %>" />
+              </td>
+              <td>
+                <div class="category-picker">
+                  <select name="transactions[<%= transaction.id %>][category]">
+                    <% transaction.categories.each do |category| %>
+                      <option><%= category %></option>
+                    <% end %>
+                    <option value="custom">Custom</option>
+                  </select>
+                  <input
+                    name="transactions[<%= transaction.id %>][category]"
+                    type="text" />
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </section>
+  <% end %>
+
+  <button class="button" type="submit">Submit Transactions</button>
+</form>
+
+<pre><%= json %></pre>

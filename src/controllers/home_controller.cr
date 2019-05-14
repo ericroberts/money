@@ -11,6 +11,98 @@ get "/" do
   render "src/templates/home.ecr", "src/templates/layouts/application.ecr"
 end
 
+class Account
+  getter :name, :transactions
+
+  def initialize(
+    name : String,
+    transactions : Array(Transaction)
+  )
+    @name = name
+    @transactions = transactions
+  end
+end
+
+class Transaction
+  getter :id, :date, :name, :amount, :categories
+
+  def initialize(
+    id : String,
+    date : Time,
+    name : String,
+    amount : Money,
+    categories : Array(String),
+  )
+    @id = id
+    @date = date
+    @name = name
+    @amount = amount
+    @categories = categories
+  end
+end
+
+def convert_to_money(amount)
+  Money.new(amount.to_s.to_f * 100, "CAD")
+end
+
+def build_account(json, transactions_json)
+  raise "Account json must be provided" unless json
+  Account.new(
+    name: json["name"].as_s,
+    transactions: transactions_json.map do |t_json|
+      build_transaction(t_json)
+    end
+  )
+end
+
+def build_transaction(json)
+  Transaction.new(
+    id: json["transaction_id"].as_s,
+    date: Time.parse(
+      json["date"].to_s,
+      "%Y-%m-%d",
+      Time::Location::UTC,
+    ),
+    amount: Money.new(json["amount"].to_s.to_f * 100, "CAD"),
+    name: json["name"].as_s,
+    categories: json["category"].as_a.map { |c| c.as_s },
+  )
+end
+
+get "/transactions" do
+  request = HTTP::Client.post(
+    "https://sandbox.plaid.com/transactions/get",
+    headers: HTTP::Headers{"Content-Type" => "application/json"},
+    body: {
+      client_id: ENV["PLAID_CLIENT_ID"],
+      secret: ENV["PLAID_SECRET"],
+      access_token: File.open("access_token.json") do |file|
+        JSON.parse(file)["access_token"]
+      end,
+      start_date: Time.new(2019, 1, 1).to_s("%Y-%m-%d"),
+      end_date: Time.now.to_s("%Y-%m-%d")
+    }.to_json
+  )
+  json = request.body
+  parsed_json = JSON.parse(json)
+  accounts = parsed_json["transactions"]
+    .as_a
+    .group_by { |t| t["account_id"] }
+    .map do |account_id, transactions|
+      build_account(
+        parsed_json["accounts"]
+          .as_a
+          .find { |a| a["account_id"] == account_id },
+        transactions,
+      )
+    end
+
+  render(
+    "src/templates/transactions/index.ecr",
+    "src/templates/layouts/application.ecr",
+  )
+end
+
 post "/expenses" do |env|
   Repositories::Expense.create(
     date: Time.parse(
@@ -35,15 +127,20 @@ end
 post "/access_token" do |env|
   puts env.params.json["public_token"]
   request = HTTP::Client.post(
-    "https://sandbox.plaid.com/item/public_token/create",
+    "https://sandbox.plaid.com/item/public_token/exchange",
     headers: HTTP::Headers{"Content-Type" => "application/json"},
     body: {
       client_id: ENV["PLAID_CLIENT_ID"],
       secret: ENV["PLAID_SECRET"],
-      access_token: env.params.json["public_token"],
+      public_token: env.params.json["public_token"],
     }.to_json
   )
-  puts request.body
+  File.write("access_token.json", request.body)
+  env.redirect "/"
+end
+
+post "/bulk_expenses" do |env|
+  env.params.body.to_h.to_json
 end
 
 Kemal.run
