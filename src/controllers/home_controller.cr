@@ -3,6 +3,8 @@ require "money"
 require "dotenv"
 require "../models/expense"
 require "../repositories/expense"
+require "../plaid/account"
+require "../plaid/transaction"
 
 Dotenv.load
 
@@ -11,56 +13,13 @@ get "/" do
   render "src/templates/home.ecr", "src/templates/layouts/application.ecr"
 end
 
-class Account
-  include JSON::Serializable
-
-  getter :name, :transactions
-
-  property name : String
-  property transactions : Array(Transaction)
-
-  def initialize(
-    name : String,
-    transactions : Array(Transaction)
-  )
-    @name = name
-    @transactions = transactions
-  end
-end
-
-class Transaction
-  include JSON::Serializable
-
-  getter :id, :date, :name, :amount, :categories
-
-  property id : String
-  property date : Time
-  property name : String
-  property amount : Money
-  property categories : Array(String)
-
-  def initialize(
-    id : String,
-    date : Time,
-    name : String,
-    amount : Money,
-    categories : Array(String),
-  )
-    @id = id
-    @date = date
-    @name = name
-    @amount = amount
-    @categories = categories
-  end
-end
-
 def convert_to_money(amount)
   Money.new(amount.to_s.to_f * 100, "CAD")
 end
 
 def build_account(json, transactions_json)
   raise "Account json must be provided" unless json
-  Account.new(
+  Plaid::Account.new(
     name: json["name"].as_s,
     transactions: transactions_json.map do |t_json|
       build_transaction(t_json)
@@ -69,7 +28,7 @@ def build_account(json, transactions_json)
 end
 
 def build_transaction(json)
-  Transaction.new(
+  Plaid::Transaction.new(
     id: json["transaction_id"].as_s,
     date: Time.parse(
       json["date"].to_s,
