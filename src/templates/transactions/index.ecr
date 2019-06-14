@@ -1,6 +1,3 @@
-<script type="text/javascript" src="/change_checkboxes.js"></script>
-<script type="text/javascript" src="/category_picker.js"></script>
-
 <form class="form" method="post" action="/bulk_expenses">
   <% accounts.each do |account| %>
     <section>
@@ -21,30 +18,38 @@
               <td>
                 <input
                   type="checkbox"
-                  value="<%= transaction.id %>"
-                  name="transaction_ids[]"
+                  name="<%= transaction.id %>-selected"
                   checked />
+                <input
+                  type="hidden"
+                  name="<%= transaction.id %>-id"
+                  value="<%= transaction.id %>" />
               </td>
-              <td><%= transaction.date.to_s("%Y-%m-%d") %></td>
-              <td><%= transaction.amount %></td>
+              <td>
+                <%= transaction.date.to_s("%Y-%m-%d") %>
+                <input
+                  type="hidden"
+                  name="<%= transaction.id %>-date"
+                  value="<%= transaction.date.to_s("%Y-%m-%d") %>" />
+              </td>
+              <td>
+                <%= transaction.amount %>
+                <input
+                  type="hidden"
+                  name="<%= transaction.id %>-amount"
+                  value="<%= transaction.amount.cents %>"
+              </td>
               <td>
                 <input
                   type="text"
-                  name="transactions[<%= transaction.id %>][name]"
+                  name="<%= transaction.id %>-name"
                   value="<%= transaction.name %>" />
               </td>
               <td>
-                <div class="category-picker">
-                  <select name="transactions[<%= transaction.id %>][category]">
-                    <% transaction.categories.each do |category| %>
-                      <option><%= category %></option>
-                    <% end %>
-                    <option value="custom">Custom</option>
-                  </select>
-                  <input
-                    name="transactions[<%= transaction.id %>][category]"
-                    type="text" />
-                </div>
+                <input
+                  type="text"
+                  name="<%= transaction.id %>-category"
+                  value="<%= transaction.categories.join(", ") %>" />
               </td>
             </tr>
           <% end %>
@@ -55,5 +60,3 @@
 
   <button class="button" type="submit">Submit Transactions</button>
 </form>
-
-<pre><%= json %></pre>

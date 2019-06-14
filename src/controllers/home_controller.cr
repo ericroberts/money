@@ -12,7 +12,12 @@ get "/" do
 end
 
 class Account
+  include JSON::Serializable
+
   getter :name, :transactions
+
+  property name : String
+  property transactions : Array(Transaction)
 
   def initialize(
     name : String,
@@ -24,7 +29,15 @@ class Account
 end
 
 class Transaction
+  include JSON::Serializable
+
   getter :id, :date, :name, :amount, :categories
+
+  property id : String
+  property date : Time
+  property name : String
+  property amount : Money
+  property categories : Array(String)
 
   def initialize(
     id : String,
@@ -139,8 +152,23 @@ post "/access_token" do |env|
   env.redirect "/"
 end
 
+alias Params = Hash(String, Params | String)
+
 post "/bulk_expenses" do |env|
-  env.params.body.to_h.to_json
+  body = env.request.body.as(IO).gets_to_end
+  params = body.split("&").map { |key_and_value|
+    full_key, value =
+      key_and_value
+        .split("=", 2)
+        .map { |v| URI.unescape(v, plus_to_space: true) }
+    id, key = full_key.split("-", 2)
+    {id, key, value}
+  }.group_by { |id, _, _| id }.map do |_, keys_and_values|
+    keys_and_values.reduce({} of String => String) do |transaction_data, (_, key, value)|
+      transaction_data.merge({ key => value })
+    end
+  end
+  pp params
 end
 
 Kemal.run
