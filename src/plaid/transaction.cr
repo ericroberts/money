@@ -26,5 +26,19 @@ module Plaid
       @amount = amount
       @categories = categories
     end
+
+    def self.from_json(json)
+      new(
+        id: json["transaction_id"].as_s,
+        date: Time.parse(
+          json["date"].to_s,
+          "%Y-%m-%d",
+          Time::Location::UTC,
+        ),
+        amount: Money.new(json["amount"].to_s.to_f * 100, "CAD"),
+        name: json["name"].as_s,
+        categories: json["category"].as_a.map { |c| c.as_s },
+      )
+    end
   end
 end
