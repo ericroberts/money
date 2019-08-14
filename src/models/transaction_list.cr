@@ -1,12 +1,12 @@
-require "./expense"
+require "./transaction"
 
 module Models
-  class ExpenseList
-    include Enumerable(Models::Expense)
+  class TransactionList
+    include Enumerable(Models::Transaction)
 
     protected getter :expenses
 
-    def initialize(expenses : Array(Models::Expense))
+    def initialize(expenses : Array(Models::Transaction))
       @expenses = expenses
     end
 
@@ -22,13 +22,13 @@ module Models
       self.class.new(expenses + other)
     end
 
-    def total_spent
+    def total_out
       expenses.reduce(Money.new(0, "CAD")) do |sum, expense|
         sum + expense.amount
       end
     end
 
-    def total_gained
+    def total_in
       Money.new(0, "CAD")
     end
 

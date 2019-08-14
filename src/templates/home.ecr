@@ -18,17 +18,28 @@
         <span>Category</span>
         <input type="text" name="category" />
       </label>
+      <fieldset class="radio">
+        <legend>Type</legend>
+        <label>
+          <input type="radio" name="type" value="in" checked="checked" />
+          In
+        </label>
+        <label>
+          <input type="radio" name="type" value="out" />
+          Out
+        </label>
+      </fieldset>
       <button class="button" type="submit">Submit</button>
     </form>
   </section>
   <section id="reporting">
     <section class="total">
-      <h1>Total spent <small>(this month)</small></h1>
-      <h2><%= expenses.total_spent %></h2>
+      <h1>Total in <small>(this month)</small></h1>
+      <h2><%= expenses.total_in %></h2>
     </section>
     <section class="total">
-      <h1>Total gained <small>(this month)</small></h1>
-      <h2><%= expenses.total_gained %></h2>
+      <h1>Total out <small>(this month)</small></h1>
+      <h2><%= expenses.total_out %></h2>
     </section>
     <section id="transactions">
       <table>

@@ -2,7 +2,7 @@ require "json"
 require "money"
 
 module Models
-  class Expense
+  class Transaction
     include JSON::Serializable
 
     property id : String

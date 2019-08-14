@@ -1,8 +1,8 @@
 require "kemal"
 require "money"
-require "../repositories/expense"
+require "../repositories/transaction"
 
 get "/" do
-  expenses = Repositories::Expense.this_month.order(:date)
+  expenses = Repositories::Transaction.this_month.order(:date)
   render "src/templates/home.ecr", "src/templates/layouts/application.ecr"
 end
