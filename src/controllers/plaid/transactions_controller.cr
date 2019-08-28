@@ -73,7 +73,7 @@ post "/bulk_expenses" do |env|
         "%Y-%m-%d",
         Time::Location::UTC,
       ),
-      amount: Money.new(transaction_data["amount"].to_f(64) * 100, "CAD"),
+      amount: Money.new(transaction_data["amount"].to_f * 100, "CAD"),
       description: transaction_data["name"].as(String),
       category: transaction_data["category"].as(String),
     )

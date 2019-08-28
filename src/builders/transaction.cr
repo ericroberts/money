@@ -5,22 +5,24 @@ module Builders
   class Transaction
     def initialize(
       date : String | Time,
-      amount : String | Money,
+      amount : String | ::Money,
       description : String,
       category : String,
+      type : String,
       errors : Errors = Errors.new,
     )
       @date = date
       @amount = amount
       @description = description
       @category = category
+      @type = type
       @errors = errors
     end
 
-    getter :errors, :description, :category
+    getter :errors, :description, :category, :type
 
     def self.empty
-      new(date: Time.now, amount: "", description: "", category: "")
+      new(date: Time.now, amount: "", description: "", category: "", type: "in")
     end
 
     def validate
@@ -57,16 +59,16 @@ module Builders
       local_amount = @amount
       case local_amount
       when String
-        errors.add(:amount, :blank) if local_amount.strip == ""
+        errors.add(:amount, :invalid) if local_amount.strip == ""
       end
     end
 
     def validate_description
-      errors.add(:description, :blank) if @description.strip == ""
+      errors.add(:description, :invalid) if @description.strip == ""
     end
 
     def validate_category
-      errors.add(:category, :blank) if @category.strip == ""
+      errors.add(:category, :invalid) if @category.strip == ""
     end
 
     def date
@@ -86,13 +88,13 @@ module Builders
     def amount
       local_amount = @amount
       case local_amount
-      when Money
+      when ::Money
         return local_amount
       else
         if local_amount.strip == ""
-          Money.new(0, "CAD")
+          ::Money.new(0, "CAD")
         else
-          Money.new(local_amount.to_f(64) * 100, "CAD")
+          ::Money.new(local_amount.to_f * 100, "CAD")
         end
       end
     end

@@ -28,6 +28,8 @@ module Builders
       @code = code
     end
 
+    getter :code
+
     def error?
       true
     end

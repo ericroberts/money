@@ -1,0 +1,6 @@
+<form class="form" method="post" action="/expenses">
+  <% inputs.each do |input| %>
+    <%= input.render %>
+  <% end %>
+  <button class="button" type="submit">Submit</button>
+</form>

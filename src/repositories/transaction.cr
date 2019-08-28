@@ -3,8 +3,10 @@ require "../models/transaction_list"
 
 module Repositories
   class Transaction
+    FILE_PATH = "./data/transactions.json"
+
     def self.all
-      File.open("data/expenses.json") do |file|
+      File.open(FILE_PATH) do |file|
         Models::TransactionList.new(
           JSON.parse(file).as_a.map do |expense_json|
             Models::Transaction.new(
@@ -18,7 +20,7 @@ module Repositories
         )
       end
     rescue Errno
-      File.write("data/expenses.json", "[]")
+      File.write(FILE_PATH, "[]")
       Models::TransactionList.new([] of Models::Transaction)
     end
 
@@ -35,7 +37,7 @@ module Repositories
       category : String,
     )
       File.write(
-        "data/expenses.json",
+        FILE_PATH,
         (
           all + [
             Models::Transaction.new(
@@ -51,12 +53,12 @@ module Repositories
     end
 
     def self.delete_all
-      File.write("data/expenses.json", "[]")
+      File.write(FILE_PATH, "[]")
     end
 
     def self.delete(id : String)
       File.write(
-        "data/expenses.json",
+        FILE_PATH,
         all.reject { |expense| expense.id == id }.to_json
       )
     end

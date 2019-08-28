@@ -2,7 +2,7 @@ version: 1.0
 shards:
   dotenv:
     github: gdotdesign/cr-dotenv
-    version: 0.2.0
+    version: 0.3.0
 
   exception_page:
     github: crystal-loot/exception_page
@@ -14,7 +14,7 @@ shards:
 
   kemal:
     github: kemalcr/kemal
-    version: 0.25.2
+    version: 0.26.0
 
   kilt:
     github: jeromegn/kilt
@@ -22,7 +22,7 @@ shards:
 
   money:
     github: crystal-money/money
-    commit: 22f0a5f69c8a49b83f27d011b3aa4e895e46b3ff
+    version: 1.0.0
 
   radix:
     github: luislavena/radix
