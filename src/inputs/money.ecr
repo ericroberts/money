@@ -1,0 +1,9 @@
+<label class="<%= "error" if error.error? %>">
+  <span>Amount</span>
+  <input type="number" name="amount" value="<%= value.to_f %>" />
+  <% if error.error? %>
+    <span class="info">
+      Please provide an amount (e.g. 9.99)
+    </span>
+  <% end %>
+</label>

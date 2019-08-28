@@ -1,0 +1,9 @@
+<label class="<%= "error" if error.error? %>">
+  <span>Date</span>
+  <input type="date" name="date" value="<%= value.to_s("%Y-%m-%d") %>" />
+  <% if error.error? %>
+    <span class="info">
+      Please provide a date in the following format: YYYY-MM-DD
+    </span>
+  <% end %>
+</label>

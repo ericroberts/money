@@ -1,0 +1,9 @@
+<label class="<%= "error" if error.error? %>">
+  <span><%= label %></span>
+  <input type="text" name="<%= name %>" value="<%= value %>" />
+  <% if error.error? %>
+    <span class="info">
+      Please provide a description
+    </span>
+  <% end %>
+</label>

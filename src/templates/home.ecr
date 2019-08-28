@@ -1,36 +1,7 @@
 <section role="main">
   <section id="recording">
     <h1>New transaction</h1>
-    <form class="form" method="post" action="/expenses">
-      <label>
-        <span>Date</span>
-        <input type="date" name="date" value="<%= Time.now.to_s("%Y-%m-%d") %>" />
-      </label>
-      <label>
-        <span>Amount</span>
-        <input type="number" name="amount" />
-      </label>
-      <label>
-        <span>Description</span>
-        <input type="text" name="description" />
-      </label>
-      <label>
-        <span>Category</span>
-        <input type="text" name="category" />
-      </label>
-      <fieldset class="radio">
-        <legend>Type</legend>
-        <label>
-          <input type="radio" name="type" value="in" checked="checked" />
-          In
-        </label>
-        <label>
-          <input type="radio" name="type" value="out" />
-          Out
-        </label>
-      </fieldset>
-      <button class="button" type="submit">Submit</button>
-    </form>
+    <%= transaction_form.to_s %>
   </section>
   <section id="reporting">
     <section class="total">

@@ -49,6 +49,25 @@ fieldset.radio legend {
   margin: 0 0 0.5rem 0;
 }
 
+label.error > span.info {
+  background: #ee5253;
+  border-radius: 0 0 2px 2px;
+  color: #fff;
+  font-size: 0.8em;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0.5rem;
+  text-shadow: 1px 1px 0 #d5393a;
+}
+
+label.error > input:not([type=checkbox]):not([type=radio]),
+label.error > select {
+  border-color: #ee5253;
+  border-radius: 2px 2px 0 0;
+  border-width: 3px;
+  padding: calc(1rem - 4px);
+}
+
 fieldset.radio {
   border: none;
   display: flex;
