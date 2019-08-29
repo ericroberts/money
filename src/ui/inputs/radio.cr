@@ -4,7 +4,7 @@ require "./input"
 
 module UI
   module Inputs
-    class Radio < Input
+    class Radio
       def initialize(
         value : String,
         label : String,
@@ -20,6 +20,10 @@ module UI
       getter :value, :label, :name, :checked
 
       ECR.def_to_s "./src/ui/inputs/radio.ecr"
+
+      def render
+        to_s
+      end
     end
   end
 end

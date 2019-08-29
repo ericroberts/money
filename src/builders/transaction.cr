@@ -4,8 +4,8 @@ require "../models/transaction"
 module Builders
   class Transaction
     def initialize(
-      date : String | Time,
-      amount : String | ::Money,
+      date : String,
+      amount : String,
       description : String,
       category : String,
       type : String,
@@ -22,7 +22,7 @@ module Builders
     getter :errors, :description, :category, :type
 
     def self.empty
-      new(date: Time.now, amount: "", description: "", category: "", type: "in")
+      new(date: Time.now.to_s("%Y-%m-%d"), amount: "", description: "", category: "", type: "in")
     end
 
     def validate
@@ -30,6 +30,15 @@ module Builders
       validate_amount
       validate_description
       validate_category
+    end
+
+    def value(property_name)
+      case property_name
+      when :date
+        date
+      else
+        raise "fuck"
+      end
     end
 
     def valid?
@@ -50,7 +59,7 @@ module Builders
             Time::Location::UTC,
           )
         rescue Time::Format::Error
-          errors.add(:date, :invalid_format)
+          errors.add(:date, :invalid)
         end
       end
     end

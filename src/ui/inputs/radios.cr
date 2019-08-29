@@ -5,14 +5,16 @@ require "./radio"
 
 module UI
   module Inputs
-    class Radios < Input
+    class Radios
       def initialize(
         value : String,
+        error : UI::ErrorI,
         label : String,
         name : Symbol,
         options : Array(NamedTuple(label: String, value: String)),
       )
         @value = value
+        @error = error
         @label = label
         @name = name
         @options = options
@@ -22,6 +24,10 @@ module UI
       private getter :value, :name, :options
 
       ECR.def_to_s "./src/ui/inputs/radios.ecr"
+
+      def render
+        to_s
+      end
 
       def radios
         options.map do |option|

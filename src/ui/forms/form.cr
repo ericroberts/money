@@ -9,6 +9,10 @@ module UI
         @inputs = inputs
       end
 
+      def initialize(inputs : Array(UI::Inputs::Input | UI::Inputs::Radios))
+        @inputs = inputs
+      end
+
       getter :inputs
 
       def render

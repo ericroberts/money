@@ -27,6 +27,7 @@ post "/expenses" do |env|
   else
     expenses = Repositories::Transaction.this_month.order(:date)
     transaction_form = UI::Forms::Transaction.build(builder)
+    new_form = UI::Forms::NewTransaction.build(::Forms::Transaction.empty)
     render "src/templates/home.ecr", "src/templates/layouts/application.ecr"
   end
 end

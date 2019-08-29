@@ -1,3 +1,6 @@
+require "../forms/form"
+require "../builders/errors"
+
 module UI
   abstract class ErrorI
     abstract def class_name
@@ -6,9 +9,9 @@ module UI
   end
 
   class Error < ErrorI
-    def self.build(error, messages)
+    def self.build(error : ::Forms::Error | ::Forms::NonError | ::Builders::Error | ::Builders::NonError, messages)
       case error
-      when Builders::NonError
+      when Builders::NonError, ::Forms::NonError
         NonError.new
       else
         Error.new(messages[error.code])

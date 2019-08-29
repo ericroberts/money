@@ -33,6 +33,10 @@ module Builders
     def error?
       true
     end
+
+    def ==(other)
+      other.is_a?(Error) && other.code == code
+    end
   end
 
   class NonError
