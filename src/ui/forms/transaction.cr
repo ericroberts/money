@@ -13,31 +13,11 @@ module UI
   module Forms
     class Transaction
       def self.build(form)
-        convertable, non_convertable = form.properties.values.partition do |property|
-          property.convertable_to_ui?
-        end
-
-        converted = convertable.map do |property|
-          property.to_ui_input(
-            Strings[:fields][property.name][:label],
-            Strings[:fields][property.name][:errors],
-          )
-        end
-
         Form.new(
-          inputs: converted + [
-            {:amount, UI::Inputs::Money},
-            {:description, UI::Inputs::Text},
-            {:category, UI::Inputs::Text},
-          ].map do |property_name, input_type|
-            input_type.new(
-              form.value(property_name),
-              UI::Error.build(
-                form.error(property_name),
-                Strings[:fields][property_name][:errors],
-              ),
-              Strings[:fields][property_name][:label],
-              property_name,
+          inputs: form.properties.values.map do |property|
+            property.to_ui_input(
+              Strings[:fields][property.name][:label],
+              Strings[:fields][property.name][:errors],
             )
           end
         )

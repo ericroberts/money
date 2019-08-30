@@ -23,14 +23,6 @@ module Forms
       validate
       errors.none?
     end
-
-    def value(property_name)
-      properties[property_name].value
-    end
-
-    def error(property_name)
-      errors.for(property_name)
-    end
   end
 
   class Errors

@@ -26,7 +26,7 @@ post "/expenses" do |env|
     env.redirect "/"
   else
     expenses = Repositories::Transaction.this_month.order(:date)
-    form = UI::Forms::Transaction.build(::Forms::Transaction.empty)
+    form = UI::Forms::Transaction.build(builder)
     render "src/templates/home.ecr", "src/templates/layouts/application.ecr"
   end
 end

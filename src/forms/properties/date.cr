@@ -1,3 +1,4 @@
+require "../../ui/inputs/date"
 require "../form"
 require "./property"
 
