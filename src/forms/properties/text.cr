@@ -5,8 +5,8 @@ require "./property"
 module Forms
   module Properties
     class Text < Property
-      def self.default(name)
-        new(name, "")
+      def self.default_value
+        ""
       end
 
       def to_ui_input(label, error_messages, input_type = UI::Inputs::Text)

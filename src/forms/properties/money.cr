@@ -7,8 +7,8 @@ require "./property"
 module Forms
   module Properties
     class Money < Property
-      def self.default(name)
-        new(name, "0")
+      def self.default_value
+        "0"
       end
 
       def to_ui_input(label, error_messages, input_type = UI::Inputs::Money)

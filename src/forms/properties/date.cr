@@ -5,8 +5,8 @@ require "./property"
 module Forms
   module Properties
     class Date < Property
-      def self.default(name)
-        new(name, Time.now.to_s("%Y-%m-%d"))
+      def self.default_value
+        Time.now.to_s("%Y-%m-%d")
       end
 
       def to_ui_input(label, error_messages, input_type = UI::Inputs::Date)

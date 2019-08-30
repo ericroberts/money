@@ -14,6 +14,9 @@ module Forms
   )
 
   class Transaction < Form(TransactionProperties)
+    IN = "in"
+    OUT = "out"
+
     def self.build(date, amount, description, category, type)
       new(
         properties: {
@@ -21,20 +24,18 @@ module Forms
           amount: Properties::Money.new(:amount, amount),
           description: Properties::Text.new(:description, description),
           category: Properties::Text.new(:category, category),
-          type: Properties::OptionsList.new(:type, type, ["in", "out"])
+          type: Properties::OptionsList.new(:type, type, [IN, OUT])
         }
       )
     end
 
     def self.empty
-      Form.new(
-        properties: {
-          :date => Properties::Date.default(:date),
-          :amount => Properties::Money.default(:amount),
-          :description => Properties::Text.default(:description),
-          :category => Properties::Text.default(:category),
-          :type => Properties::OptionsList.new(:type, "in", ["in", "out"])
-        },
+      build(
+        date: Properties::Date.default_value,
+        amount: Properties::Money.default_value,
+        description: Properties::Text.default_value,
+        category: Properties::Text.default_value,
+        type: IN,
       )
     end
   end
