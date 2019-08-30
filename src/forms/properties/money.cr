@@ -1,25 +1,18 @@
+require "money"
+
 require "../../ui/inputs/money"
-require "../form"
+require "../errors"
 require "./property"
 
 module Forms
   module Properties
-    class Money < ::Forms::Properties::Property
+    class Money < Property
       def self.default(name)
         new(name, "0")
       end
 
-      def convertable_to_ui?
-        true
-      end
-
       def to_ui_input(label, error_messages, input_type = UI::Inputs::Money)
-        input_type.new(
-          value,
-          UI::Error.build(validate, error_messages),
-          label,
-          name,
-        )
+        super(label, error_messages, input_type)
       end
 
       def validate

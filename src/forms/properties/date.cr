@@ -1,25 +1,16 @@
 require "../../ui/inputs/date"
-require "../form"
+require "../errors"
 require "./property"
 
 module Forms
   module Properties
-    class Date < ::Forms::Properties::Property
+    class Date < Property
       def self.default(name)
         new(name, Time.now.to_s("%Y-%m-%d"))
       end
 
-      def convertable_to_ui?
-        true
-      end
-
       def to_ui_input(label, error_messages, input_type = UI::Inputs::Date)
-        input_type.new(
-          value,
-          UI::Error.build(validate, error_messages),
-          label,
-          name,
-        )
+        super(label, error_messages, UI::Inputs::Date)
       end
 
       def validate

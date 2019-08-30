@@ -1,3 +1,7 @@
+require "../errors"
+require "../../ui/error"
+require "../../ui/inputs/text"
+
 module Forms
   module Properties
     class Property
@@ -7,10 +11,6 @@ module Forms
       end
 
       getter :name, :value
-
-      def convertable_to_ui?
-        false
-      end
 
       def to_ui_input(label, error_messages, input_type = UI::Inputs::Text)
         input_type.new(
@@ -23,6 +23,10 @@ module Forms
 
       def validate
         NonError.new
+      end
+
+      def coerced_value
+        value
       end
     end
   end

@@ -1,25 +1,16 @@
 require "../../ui/inputs/text"
-require "../form"
+require "../errors"
 require "./property"
 
 module Forms
   module Properties
-    class Text < ::Forms::Properties::Property
+    class Text < Property
       def self.default(name)
         new(name, "")
       end
 
-      def convertable_to_ui?
-        true
-      end
-
       def to_ui_input(label, error_messages, input_type = UI::Inputs::Text)
-        input_type.new(
-          value,
-          UI::Error.build(validate, error_messages),
-          label,
-          name,
-        )
+        super(label, error_messages, input_type)
       end
 
       def validate

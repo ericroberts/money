@@ -1,9 +1,9 @@
-require "../form"
+require "../errors"
 require "./property"
 
 module Forms
   module Properties
-    class OptionsList < ::Forms::Properties::Property
+    class OptionsList < Property
       def initialize(name : Symbol, value : String, options : Array(String))
         @name = name
         @value = value
