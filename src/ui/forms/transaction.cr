@@ -1,13 +1,4 @@
-require "ecr"
-
-require "../inputs/date"
-require "../inputs/money"
-require "../inputs/text"
-require "../inputs/radios"
-require "../inputs/radio"
-require "../error"
 require "./form"
-require "../../forms/properties/date"
 
 module UI
   module Forms

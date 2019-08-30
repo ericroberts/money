@@ -1,4 +1,4 @@
-require "../forms/form"
+require "../forms/errors"
 
 module UI
   abstract class ErrorI
