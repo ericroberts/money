@@ -4,27 +4,22 @@ require "./property"
 module Forms
   module Properties
     class Money < ::Forms::Properties::Property
-      def initialize(value : String)
-        @value = value
-      end
-
-      getter :value
-
-      def self.default
-        new("0")
+      def self.default(name)
+        new(name, "0")
       end
 
       def validate
-        case coerced_value
+        local_coerced_value = coerced_value
+        case local_coerced_value
         when Error
-          coerced_value
+          local_coerced_value
         else
           NonError.new
         end
       end
 
       def coerced_value
-        Money.new(value.to_f, "CAD")
+        ::Money.new(value.to_f, "CAD")
       rescue
         Error.new(:invalid)
       end

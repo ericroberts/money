@@ -4,22 +4,20 @@ require "./property"
 module Forms
   module Properties
     class Date < ::Forms::Properties::Property
-      def initialize(value : String)
-        @value = value
+      def self.default(name)
+        new(name, Time.now.to_s("%Y-%m-%d"))
       end
 
-      getter :value
-
-      def self.default
-        new(Time.now.to_s("%Y-%m-%d"))
+      def convertable_to_ui?
+        true
       end
 
-      def to_ui_input(property_name, label, error_messages, input_type = UI::Inputs::Date)
+      def to_ui_input(label, error_messages, input_type = UI::Inputs::Date)
         input_type.new(
           value,
           UI::Error.build(validate, error_messages),
           label,
-          property_name,
+          name,
         )
       end
 

@@ -4,14 +4,8 @@ require "./property"
 module Forms
   module Properties
     class Text < ::Forms::Properties::Property
-      def initialize(value : String)
-        @value = value
-      end
-
-      getter :value
-
-      def self.default
-        new("")
+      def self.default(name)
+        new(name, "")
       end
 
       def validate

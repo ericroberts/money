@@ -4,14 +4,16 @@ require "./property"
 module Forms
   module Properties
     class OptionsList < ::Forms::Properties::Property
-      def initialize(value : String, options : Array(String))
+      def initialize(name : Symbol, value : String, options : Array(String))
+        @name = name
         @value = value
+        @options = options
       end
 
       getter :value, :options
 
       def validate
-        if options.contains?(value)
+        if options.includes?(value)
           NonError.new
         else
           Error.new(:invalid)

@@ -11,18 +11,21 @@ require "../../forms/properties/date"
 
 module UI
   module Forms
-    class NewTransaction
+    class Transaction
       def self.build(form)
-        date_property = form.properties.find { |name, property| name == :date }
-        raise "FUCK" if date_property.nil?
+        convertable, non_convertable = form.properties.values.partition do |property|
+          property.convertable_to_ui?
+        end
+
+        converted = convertable.map do |property|
+          property.to_ui_input(
+            Strings[:fields][property.name][:label],
+            Strings[:fields][property.name][:errors],
+          )
+        end
+
         Form.new(
-          inputs: [
-            date_property[1].as(::Forms::Properties::Date).to_ui_input(
-              :date,
-              Strings[:fields][:date][:label],
-              Strings[:fields][:date][:errors],
-            )
-          ] + [
+          inputs: converted + [
             {:amount, UI::Inputs::Money},
             {:description, UI::Inputs::Text},
             {:category, UI::Inputs::Text},
@@ -37,67 +40,6 @@ module UI
               property_name,
             )
           end
-        )
-      end
-    end
-
-    class Transaction
-      def self.build(builder)
-        Form.new(
-          inputs: [
-            UI::Inputs::Date.new(
-              value: builder.value(:date).to_s("%Y-%m-%d"),
-              error: UI::Error.build(
-                builder.errors.for(:date),
-                Strings[:fields][:date][:errors]
-              ),
-              label: Strings[:fields][:date][:label],
-              name: :date,
-            ),
-            UI::Inputs::Money.new(
-              value: builder.amount.format(currency_code: ""),
-              error: UI::Error.build(
-                builder.errors.for(:amount),
-                Strings[:fields][:amount][:errors]
-              ),
-              label: Strings[:fields][:amount][:label],
-              name: :amount,
-            ),
-            UI::Inputs::Text.new(
-              value: builder.description,
-              error: UI::Error.build(
-                builder.errors.for(:description),
-                Strings[:fields][:description][:errors]
-              ),
-              label: Strings[:fields][:description][:label],
-              name: :description,
-            ),
-            UI::Inputs::Text.new(
-              value: builder.category,
-              error: UI::Error.build(
-                builder.errors.for(:category),
-                Strings[:fields][:category][:errors]
-              ),
-              label: Strings[:fields][:category][:label],
-              name: :category,
-            ),
-            UI::Inputs::Radios.new(
-              value: builder.type,
-              error: UI::Error.build(
-                builder.errors.for(:type),
-                Strings[:fields][:type][:errors],
-              ),
-              label: Strings[:fields][:type][:label],
-              name: :type,
-              options: [{
-                label: Strings[:fields][:type][:fields][:in][:label],
-                value: "in",
-              }, {
-                label: Strings[:fields][:type][:fields][:out][:label],
-                value: "out",
-              }],
-            )
-          ]
         )
       end
     end

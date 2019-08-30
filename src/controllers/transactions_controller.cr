@@ -1,10 +1,10 @@
 require "kemal"
-require "../builders/transaction"
+require "../forms/transaction"
 require "../repositories/transaction"
 require "../ui/forms/transaction"
 
 post "/expenses" do |env|
-  builder = Builders::Transaction.new(
+  builder = Forms::Transaction.build(
     date: env.params.body["date"],
     amount: env.params.body["amount"],
     description: env.params.body["description"],
@@ -26,8 +26,7 @@ post "/expenses" do |env|
     env.redirect "/"
   else
     expenses = Repositories::Transaction.this_month.order(:date)
-    transaction_form = UI::Forms::Transaction.build(builder)
-    new_form = UI::Forms::NewTransaction.build(::Forms::Transaction.empty)
+    form = UI::Forms::Transaction.build(::Forms::Transaction.empty)
     render "src/templates/home.ecr", "src/templates/layouts/application.ecr"
   end
 end
