@@ -2,9 +2,9 @@ require "./properties/property"
 require "./errors"
 
 module Forms
-  class Form
+  class Form(T)
     def initialize(
-      properties : Hash(Symbol, Properties::Property),
+      properties : T,
       errors = Errors.new
     )
       @properties = properties

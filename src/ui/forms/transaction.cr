@@ -10,7 +10,7 @@ module UI
               Strings[:fields][property.name][:label],
               Strings[:fields][property.name][:errors],
             )
-          end
+          end.to_a
         )
       end
     end

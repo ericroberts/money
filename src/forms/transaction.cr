@@ -5,15 +5,23 @@ require "./properties/text"
 require "./properties/options_list"
 
 module Forms
-  class Transaction
+  alias TransactionProperties = NamedTuple(
+    date: Properties::Date,
+    amount: Properties::Money,
+    description: Properties::Text,
+    category: Properties::Text,
+    type: Properties::OptionsList,
+  )
+
+  class Transaction < Form(TransactionProperties)
     def self.build(date, amount, description, category, type)
-      Form.new(
+      new(
         properties: {
-          :date => Properties::Date.new(:date, date),
-          :amount => Properties::Money.new(:amount, amount),
-          :description => Properties::Text.new(:description, description),
-          :category => Properties::Text.new(:category, category),
-          :type => Properties::OptionsList.new(:type, type, ["in", "out"])
+          date: Properties::Date.new(:date, date),
+          amount: Properties::Money.new(:amount, amount),
+          description: Properties::Text.new(:description, description),
+          category: Properties::Text.new(:category, category),
+          type: Properties::OptionsList.new(:type, type, ["in", "out"])
         }
       )
     end

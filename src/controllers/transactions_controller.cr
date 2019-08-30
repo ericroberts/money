@@ -14,14 +14,10 @@ post "/expenses" do |env|
 
   if builder.valid?
     Repositories::Transaction.create(
-      date: Time.parse(
-        env.params.body["date"].as(String),
-        "%Y-%m-%d",
-        Time::Location::UTC,
-      ),
-      amount: ::Money.new(env.params.body["amount"].to_f * 100, "CAD"),
-      description: env.params.body["description"].as(String),
-      category: env.params.body["category"].as(String),
+      date: builder.properties[:date].validated_value,
+      amount: builder.properties[:amount].validated_value,
+      description: builder.properties[:description].validated_value,
+      category: builder.properties[:category].validated_value,
     )
     env.redirect "/"
   else

@@ -25,6 +25,12 @@ module Forms
         NonError.new
       end
 
+      def validated_value
+        v = coerced_value
+        raise "Invalid value" if v.is_a?(Error)
+        v
+      end
+
       def coerced_value
         value
       end
