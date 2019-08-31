@@ -1,3 +1,4 @@
+require "../models/transaction"
 require "./form"
 require "./properties/date"
 require "./properties/money"
@@ -36,6 +37,16 @@ module Forms
         description: Properties::Text.default_value,
         category: Properties::Text.default_value,
         type: IN,
+      )
+    end
+
+    def to_model
+      Models::Transaction.new(
+        id: Random::Secure.hex(8),
+        date: properties[:date].validated_value,
+        amount: properties[:amount].validated_value,
+        description: properties[:description].validated_value,
+        category: properties[:category].validated_value,
       )
     end
   end

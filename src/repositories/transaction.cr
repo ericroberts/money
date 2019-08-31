@@ -52,6 +52,10 @@ module Repositories
       )
     end
 
+    def self.create_from_model(model)
+      File.write(FILE_PATH, (all + [model]).to_json)
+    end
+
     def self.delete_all
       File.write(FILE_PATH, "[]")
     end

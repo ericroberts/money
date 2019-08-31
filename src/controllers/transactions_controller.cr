@@ -3,6 +3,8 @@ require "../forms/transaction"
 require "../repositories/transaction"
 require "../ui/forms/transaction"
 
+repository = Repositories::Transaction
+
 post "/expenses" do |env|
   builder = Forms::Transaction.build(
     date: env.params.body["date"],
@@ -13,15 +15,10 @@ post "/expenses" do |env|
   )
 
   if builder.valid?
-    Repositories::Transaction.create(
-      date: builder.properties[:date].validated_value,
-      amount: builder.properties[:amount].validated_value,
-      description: builder.properties[:description].validated_value,
-      category: builder.properties[:category].validated_value,
-    )
+    repository.create_from_model(builder.to_model)
     env.redirect "/"
   else
-    expenses = Repositories::Transaction.this_month.order(:date)
+    expenses = repository.this_month.order(:date)
     form = UI::Forms::Transaction.build(builder)
     render "src/templates/home.ecr", "src/templates/layouts/application.ecr"
   end
@@ -29,7 +26,7 @@ end
 
 post "/expenses/:id" do |env|
   if env.params.body["_method"].as(String).upcase == "DELETE"
-    Repositories::Transaction.delete(env.params.url["id"].as(String))
+    repository.delete(env.params.url["id"].as(String))
     env.redirect "/"
   end
 end
