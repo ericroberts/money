@@ -12,10 +12,6 @@ module Forms
       def to_ui_input(label, error_messages, input_type = UI::Inputs::Text)
         super(label, error_messages, input_type)
       end
-
-      def validate
-        NonError.new
-      end
     end
   end
 end

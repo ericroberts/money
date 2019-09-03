@@ -4,6 +4,8 @@ require "./properties/date"
 require "./properties/money"
 require "./properties/text"
 require "./properties/options_list"
+require "./validators/string_presence"
+require "./validators/length"
 
 module Forms
   alias TransactionProperties = NamedTuple(
@@ -23,9 +25,16 @@ module Forms
         properties: {
           date: Properties::Date.new(:date, date),
           amount: Properties::Money.new(:amount, amount),
-          description: Properties::Text.new(:description, description),
+          description: Properties::Text.new(
+            :description,
+            description,
+            validators: [
+              Validators::StringPresence.new,
+              Validators::Length.new(5),
+            ],
+          ),
           category: Properties::Text.new(:category, category),
-          type: Properties::OptionsList.new(:type, type, [IN, OUT])
+          type: Properties::OptionsList.new(:type, type, options: [IN, OUT])
         }
       )
     end
