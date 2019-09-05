@@ -1,10 +1,11 @@
 require "../../ui/inputs/text"
 require "../errors"
 require "./property"
+require "../validators/text_validator"
 
 module Forms
   module Properties
-    class Text < Property
+    class Text < Property(String, Validators::TextValidator)
       def self.default_value
         ""
       end

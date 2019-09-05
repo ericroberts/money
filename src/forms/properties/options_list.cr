@@ -1,22 +1,22 @@
 require "../errors"
 require "../validators/validator"
 require "./property"
+require "../validators/text_validator"
 
 module Forms
   module Properties
-    class OptionsList < Property
+    class OptionsList < Property(String, Validators::TextValidator)
       def initialize(
         name : Symbol,
         value : String,
         options : Array(String),
-        validators : Array(
-          ::Forms::Validators::Validator
-        ) = [] of ::Forms::Validators::Validator,
+        validators : Array(Validators::TextValidator) = [] of Validators::TextValidator
       )
         @name = name
         @value = value
         @validators = validators
         @options = options
+        @error = NonError.new
       end
 
       getter :value, :options

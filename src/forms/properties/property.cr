@@ -5,17 +5,21 @@ require "../../forms/validators/validator"
 
 module Forms
   module Properties
-    class Property
+    class CoercionError < Exception
+    end
+
+    class Property(CoercedValueType, ValidatorType)
+      @error : Error | NonError
+
       def initialize(
         name : Symbol,
         value : String,
-        validators : Array(
-          ::Forms::Validators::Validator
-        ) = [] of ::Forms::Validators::Validator,
+        validators : Array(ValidatorType) = [] of ValidatorType
       )
         @name = name
         @value = value
         @validators = validators
+        @error = NonError.new
       end
 
       getter :name, :value
@@ -24,26 +28,23 @@ module Forms
       def to_ui_input(label, error_messages, input_type = UI::Inputs::Text)
         input_type.new(
           value,
-          UI::Error.build(validate, error_messages),
+          UI::Error.build(@error, error_messages),
           label,
           name,
         )
       end
 
       def validate
+        coerced_value
         errors = validators.map do |validator|
-          validator.validate(value).as(Error | NonError)
+          validator.validate(coerced_value).as(Error | NonError)
         end
-        errors.find { |e| e.is_a?(Error) } || NonError.new
+        @error = errors.find { |e| e.is_a?(Error) } || NonError.new
+      rescue CoercionError
+        @error = Error.new(:invalid)
       end
 
-      def validated_value
-        v = coerced_value
-        raise "Invalid value" if v.is_a?(Error)
-        v
-      end
-
-      def coerced_value
+      def coerced_value : CoercedValueType
         value
       end
     end

@@ -28,10 +28,7 @@ module Forms
           description: Properties::Text.new(
             :description,
             description,
-            validators: [
-              Validators::StringPresence.new,
-              Validators::Length.new(5),
-            ],
+            validators: [Validators::StringPresence.new.as(Validators::TextValidator)],
           ),
           category: Properties::Text.new(:category, category),
           type: Properties::OptionsList.new(:type, type, options: [IN, OUT])
@@ -52,10 +49,10 @@ module Forms
     def to_model
       Models::Transaction.new(
         id: Random::Secure.hex(8),
-        date: properties[:date].validated_value,
-        amount: properties[:amount].validated_value,
-        description: properties[:description].validated_value,
-        category: properties[:category].validated_value,
+        date: properties[:date].coerced_value,
+        amount: properties[:amount].coerced_value,
+        description: properties[:description].coerced_value,
+        category: properties[:category].coerced_value,
       )
     end
   end

@@ -1,9 +1,9 @@
 require "../errors"
-require "./validator"
+require "./text_validator"
 
 module Forms
   module Validators
-    class Length < Validator
+    class Length < TextValidator
       def initialize(length : Int64)
         @length = length
       end

@@ -1,9 +1,9 @@
 require "../errors"
-require "./validator"
+require "./text_validator"
 
 module Forms
   module Validators
-    class StringPresence < Validator
+    class StringPresence < TextValidator
       def validate(value)
         if value.strip == ""
           Error.new(:invalid)
