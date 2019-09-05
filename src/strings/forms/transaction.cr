@@ -1,21 +1,6 @@
-require "./form"
-
-module UI
+module Strings
   module Forms
-    class Transaction
-      def self.build(form)
-        Form.new(
-          inputs: form.properties.values.map do |property|
-            property.to_ui_input(
-              Strings[:fields][property.name][:label],
-              Strings[:fields][property.name][:errors],
-            )
-          end.to_a
-        )
-      end
-    end
-
-    Strings = {
+    Transaction = {
       fields: {
         date: {
           label: "Date",

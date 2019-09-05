@@ -6,7 +6,7 @@ require "../ui/forms/transaction"
 repository = Repositories::Transaction
 
 post "/expenses" do |env|
-  builder = Forms::Transaction.build(
+  form = Forms::Transaction.build(
     date: env.params.body["date"],
     amount: env.params.body["amount"],
     description: env.params.body["description"],
@@ -14,12 +14,12 @@ post "/expenses" do |env|
     type: env.params.body["type"],
   )
 
-  if builder.valid?
-    repository.create_from_model(builder.to_model)
+  if form.valid?
+    repository.create_from_model(form.to_model)
     env.redirect "/"
   else
     expenses = repository.this_month.order(:date)
-    form = UI::Forms::Transaction.build(builder)
+    ui_form = form.to_ui_form
     render "src/templates/home.ecr", "src/templates/layouts/application.ecr"
   end
 end

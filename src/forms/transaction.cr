@@ -1,11 +1,12 @@
 require "../models/transaction"
+require "../strings/forms/transaction"
+require "../ui/forms/form"
 require "./form"
 require "./properties/date"
 require "./properties/money"
-require "./properties/text"
 require "./properties/options_list"
+require "./properties/text"
 require "./validators/string_presence"
-require "./validators/length"
 
 module Forms
   alias TransactionProperties = NamedTuple(
@@ -53,6 +54,17 @@ module Forms
         amount: properties[:amount].coerced_value,
         description: properties[:description].coerced_value,
         category: properties[:category].coerced_value,
+      )
+    end
+
+    def to_ui_form
+      UI::Forms::Form.new(
+        inputs: properties.values.map do |property|
+          property.to_ui_input(
+            Strings::Forms::Transaction[:fields][property.name][:label],
+            Strings::Forms::Transaction[:fields][property.name][:errors],
+          )
+        end.to_a
       )
     end
   end

@@ -1,11 +1,9 @@
 require "kemal"
-require "money"
 require "../repositories/transaction"
-require "../ui/forms/transaction"
 require "../forms/transaction"
 
 get "/" do
   expenses = Repositories::Transaction.this_month.order(:date)
-  form = UI::Forms::Transaction.build(::Forms::Transaction.empty)
+  ui_form = ::Forms::Transaction.empty.to_ui_form
   render "src/templates/home.ecr", "src/templates/layouts/application.ecr"
 end
