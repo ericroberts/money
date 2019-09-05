@@ -31,7 +31,11 @@ module Forms
             description,
             validators: [Validators::StringPresence.new.as(Validators::TextValidator)],
           ),
-          category: Properties::Text.new(:category, category),
+          category: Properties::Text.new(
+            :category,
+            category,
+            validators: [Validators::StringPresence.new.as(Validators::TextValidator)],
+          ),
           type: Properties::OptionsList.new(:type, type, options: [IN, OUT])
         }
       )
