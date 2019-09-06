@@ -7,6 +7,7 @@ require "./properties/money"
 require "./properties/options_list"
 require "./properties/text"
 require "./validators/string_presence"
+require "./validators/inclusion"
 
 module Forms
   alias TransactionProperties = NamedTuple(
@@ -20,6 +21,7 @@ module Forms
   class Transaction < Form(TransactionProperties)
     IN = "in"
     OUT = "out"
+    TYPE_OPTIONS = [IN, OUT]
 
     def self.build(date, amount, description, category, type)
       new(
@@ -36,7 +38,12 @@ module Forms
             category,
             validators: [Validators::StringPresence.new.as(Validators::TextValidator)],
           ),
-          type: Properties::OptionsList.new(:type, type, options: [IN, OUT])
+          type: Properties::OptionsList.new(
+            :type,
+            type,
+            options: TYPE_OPTIONS,
+            validators: [Validators::Inclusion.new(TYPE_OPTIONS).as(Validators::TextValidator)],
+          )
         }
       )
     end

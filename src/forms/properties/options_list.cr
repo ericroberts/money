@@ -36,14 +36,6 @@ module Forms
           end
         )
       end
-
-      def validate
-        if options.includes?(value)
-          super
-        else
-          Error.new(:invalid)
-        end
-      end
     end
   end
 end
