@@ -1,7 +1,6 @@
 require "kemal"
 require "../forms/transaction"
 require "../repositories/transaction"
-require "../ui/forms/transaction"
 
 repository = Repositories::Transaction
 

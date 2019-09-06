@@ -2,6 +2,7 @@ require "../errors"
 require "../validators/validator"
 require "./property"
 require "../validators/text_validator"
+require "../../ui/inputs/radios"
 
 module Forms
   module Properties
@@ -21,9 +22,21 @@ module Forms
 
       getter :value, :options
 
+      def to_ui_input(label, error_messages, input_type = UI::Inputs::Radios)
+        input_type.new(
+          value,
+          UI::Error.build(@error, error_messages),
+          label,
+          name,
+          options.map do |option|
+            { label: option, value: option }
+          end
+        )
+      end
+
       def validate
         if options.includes?(value)
-          NonError.new
+          super
         else
           Error.new(:invalid)
         end
