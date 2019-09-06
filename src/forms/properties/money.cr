@@ -12,8 +12,8 @@ module Forms
         "0"
       end
 
-      def to_ui_input(label, error_messages, input_type = UI::Inputs::Money)
-        super(label, error_messages, input_type)
+      def input_type
+        UI::Inputs::Money
       end
 
       def coerced_value

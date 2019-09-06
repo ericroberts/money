@@ -10,8 +10,8 @@ module Forms
         Time.now.to_s("%Y-%m-%d")
       end
 
-      def to_ui_input(label, error_messages, input_type = UI::Inputs::Date)
-        super(label, error_messages, UI::Inputs::Date)
+      def input_type
+        UI::Inputs::Date
       end
 
       def coerced_value

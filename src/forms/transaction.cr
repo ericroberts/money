@@ -65,9 +65,8 @@ module Forms
       UI::Forms::Form.new(
         inputs: properties.values.map do |property|
           property.to_ui_input(
-            Strings::Forms::Transaction[:fields][property.name][:label],
-            Strings::Forms::Transaction[:fields][property.name][:errors],
-          )
+            Strings::Forms::Transaction[:fields][property.name]
+          ).as(UI::Inputs::Input)
         end.to_a
       )
     end

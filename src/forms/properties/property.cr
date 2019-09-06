@@ -25,11 +25,15 @@ module Forms
       getter :name, :value
       private getter :validators
 
-      def to_ui_input(label, error_messages, input_type = UI::Inputs::Text)
+      def input_type
+        UI::Inputs::Text
+      end
+
+      def to_ui_input(strings)
         input_type.new(
           value,
-          UI::Error.build(@error, error_messages),
-          label,
+          UI::Error.build(@error, strings[:errors]),
+          strings[:label],
           name,
         )
       end

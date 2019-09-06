@@ -5,7 +5,7 @@ require "./radio"
 
 module UI
   module Inputs
-    class Radios
+    class Radios < Input
       def initialize(
         value : String,
         error : UI::ErrorI,
