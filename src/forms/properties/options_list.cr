@@ -26,7 +26,6 @@ module Forms
         UI::Inputs::Radios(typeof(strings)).new(
           value,
           UI::Error.build(@error, strings[:errors]),
-          strings[:label],
           name,
           strings,
           options,

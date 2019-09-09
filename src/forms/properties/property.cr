@@ -33,8 +33,8 @@ module Forms
         input_type.new(
           value,
           UI::Error.build(@error, strings[:errors]),
-          strings[:label],
           name,
+          strings,
         )
       end
 

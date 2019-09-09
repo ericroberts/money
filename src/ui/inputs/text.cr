@@ -4,7 +4,7 @@ require "./input"
 
 module UI
   module Inputs
-    class Text < Input
+    class Text(S) < Input(S)
       ECR.def_to_s "./src/ui/inputs/text.ecr"
     end
   end

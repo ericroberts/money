@@ -4,20 +4,25 @@ module UI
       abstract def render
     end
 
-    class Input < InputI
+    class Input(S) < InputI
       def initialize(
         value : String,
         error : UI::ErrorI,
-        label : String,
         name : Symbol,
+        strings : S,
       )
         @value = value
         @error = error
-        @label = label
         @name = name
+        @strings = strings
       end
 
-      getter :value, :error, :label, :name
+      getter :value, :error, :name
+      private getter :strings
+
+      def label
+        strings[:label]
+      end
 
       def render
         to_s

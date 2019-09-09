@@ -10,14 +10,12 @@ module UI
       def initialize(
         value : String,
         error : UI::ErrorI,
-        label : String,
         name : Symbol,
         strings : S,
         options : Array(Symbol),
       )
         @value = value
         @error = error
-        @label = label
         @name = name
         @strings = strings
         @options = options
