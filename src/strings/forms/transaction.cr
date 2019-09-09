@@ -28,7 +28,9 @@ module Strings
         },
         type: {
           label: "Type",
-          errors: {} of Symbol => String,
+          errors: {
+            invalid: "Please select a type",
+          },
           fields: {
             in: {
               label: "In",

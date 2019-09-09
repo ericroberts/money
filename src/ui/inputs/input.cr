@@ -1,6 +1,10 @@
 module UI
   module Inputs
-    class Input
+    abstract class InputI
+      abstract def render
+    end
+
+    class Input < InputI
       def initialize(
         value : String,
         error : UI::ErrorI,

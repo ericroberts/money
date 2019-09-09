@@ -2,28 +2,34 @@ require "ecr"
 require "../error"
 require "./input"
 require "./radio"
+require "../../forms/properties/options_list"
 
 module UI
   module Inputs
-    class Radios < Input
+    class Radios(S) < InputI
       def initialize(
         value : String,
         error : UI::ErrorI,
         label : String,
         name : Symbol,
+        strings : S,
         options : Array(Symbol),
       )
         @value = value
         @error = error
         @label = label
         @name = name
+        @strings = strings
         @options = options
       end
 
-      getter :label
-      private getter :value, :name, :options
+      private getter :value, :name, :strings, :options
 
       ECR.def_to_s "./src/ui/inputs/radios.ecr"
+
+      def label
+        strings[:label]
+      end
 
       def render
         to_s
@@ -33,7 +39,7 @@ module UI
         options.map do |option|
           Radio.new(
             value: option.to_s,
-            label: option.to_s, # TODO: Replace with strings
+            label: strings[:fields][option][:label],
             name: name,
             checked: value == option.to_s,
           )

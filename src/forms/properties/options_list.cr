@@ -22,15 +22,13 @@ module Forms
 
       getter :value, :options
 
-      def to_ui_input(
-        strings,
-        input_type = UI::Inputs::Radios,
-      )
-        input_type.new(
+      def to_ui_input(strings)
+        UI::Inputs::Radios(typeof(strings)).new(
           value,
           UI::Error.build(@error, strings[:errors]),
           strings[:label],
           name,
+          strings,
           options,
         )
       end

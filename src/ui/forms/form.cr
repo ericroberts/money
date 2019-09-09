@@ -5,7 +5,7 @@ require "../inputs/input"
 module UI
   module Forms
     class Form
-      def initialize(inputs : Array(UI::Inputs::Input))
+      def initialize(inputs : Array(UI::Inputs::InputI))
         @inputs = inputs
       end
 
