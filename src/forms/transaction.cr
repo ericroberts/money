@@ -73,13 +73,14 @@ module Forms
     end
 
     def to_ui_form
+      field_strings = Strings::Forms::Transaction[:fields]
       UI::Forms::Form.new(
         inputs: [
-          properties[:date].to_ui_input(Strings::Forms::Transaction[:fields][:date]),
-          properties[:amount].to_ui_input(Strings::Forms::Transaction[:fields][:amount]),
-          properties[:description].to_ui_input(Strings::Forms::Transaction[:fields][:description]),
-          properties[:category].to_ui_input(Strings::Forms::Transaction[:fields][:category]),
-          properties[:type].to_ui_input(Strings::Forms::Transaction[:fields][:type]),
+          properties[:date].to_ui_input(field_strings[:date]),
+          properties[:amount].to_ui_input(field_strings[:amount]),
+          properties[:description].to_ui_input(field_strings[:description]),
+          properties[:category].to_ui_input(field_strings[:category]),
+          properties[:type].to_ui_input(field_strings[:type]),
         ]
       )
     end
