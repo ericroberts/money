@@ -9,7 +9,7 @@ module UI
         value : String,
         error : UI::ErrorI,
         label : String,
-        name : String | Symbol,
+        name : Symbol,
       )
         @value = value
         @error = error
