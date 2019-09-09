@@ -74,11 +74,13 @@ module Forms
 
     def to_ui_form
       UI::Forms::Form.new(
-        inputs: properties.values.map do |property|
-          property.to_ui_input(
-            Strings::Forms::Transaction[:fields][property.name]
-          ).as(UI::Inputs::Input)
-        end.to_a
+        inputs: [
+          properties[:date].to_ui_input(Strings::Forms::Transaction[:fields][:date]),
+          properties[:amount].to_ui_input(Strings::Forms::Transaction[:fields][:amount]),
+          properties[:description].to_ui_input(Strings::Forms::Transaction[:fields][:description]),
+          properties[:category].to_ui_input(Strings::Forms::Transaction[:fields][:category]),
+          properties[:type].to_ui_input(Strings::Forms::Transaction[:fields][:type]),
+        ]
       )
     end
   end
