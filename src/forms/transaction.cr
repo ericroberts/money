@@ -19,8 +19,8 @@ module Forms
   )
 
   class Transaction < Form(TransactionProperties)
-    IN = "in"
-    OUT = "out"
+    IN = :in
+    OUT = :out
     TYPE_OPTIONS = [IN, OUT]
 
     def self.build(date, amount, description, category, type)
@@ -42,7 +42,11 @@ module Forms
             :type,
             type,
             options: TYPE_OPTIONS,
-            validators: [Validators::Inclusion.new(TYPE_OPTIONS).as(Validators::TextValidator)],
+            validators: [
+              Validators::Inclusion.new(
+                TYPE_OPTIONS.map { |o| o.to_s }
+              ).as(Validators::TextValidator)
+            ],
           )
         }
       )
@@ -54,7 +58,7 @@ module Forms
         amount: Properties::Money.default_value,
         description: Properties::Text.default_value,
         category: Properties::Text.default_value,
-        type: IN,
+        type: IN.to_s,
       )
     end
 

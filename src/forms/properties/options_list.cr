@@ -10,7 +10,7 @@ module Forms
       def initialize(
         name : Symbol,
         value : String,
-        options : Array(String),
+        options : Array(Symbol),
         validators : Array(Validators::TextValidator) = [] of Validators::TextValidator
       )
         @name = name
@@ -31,9 +31,7 @@ module Forms
           UI::Error.build(@error, strings[:errors]),
           strings[:label],
           name,
-          options.map do |option|
-            { label: option, value: option }
-          end
+          options,
         )
       end
     end

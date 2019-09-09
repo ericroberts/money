@@ -11,7 +11,7 @@ module UI
         error : UI::ErrorI,
         label : String,
         name : Symbol,
-        options : Array(NamedTuple(label: String, value: String)),
+        options : Array(Symbol),
       )
         @value = value
         @error = error
@@ -32,10 +32,10 @@ module UI
       def radios
         options.map do |option|
           Radio.new(
-            value: option[:value],
-            label: option[:label],
+            value: option.to_s,
+            label: option.to_s, # TODO: Replace with strings
             name: name,
-            checked: value == option[:value],
+            checked: value == option.to_s,
           )
         end
       end
