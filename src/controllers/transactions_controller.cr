@@ -14,7 +14,7 @@ post "/expenses" do |env|
   )
 
   if form.valid?
-    repository.create_from_model(form.to_model)
+    repository.persist_model(form.to_model)
     env.redirect "/"
   else
     expenses = repository.this_month.order(:date)

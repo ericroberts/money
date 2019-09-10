@@ -52,7 +52,7 @@ module Repositories
       )
     end
 
-    def self.create_from_model(model)
+    def self.persist_model(model)
       File.write(FILE_PATH, (all + [model]).to_json)
     end
 
