@@ -23,13 +23,15 @@ module Models
     end
 
     def total_out
-      expenses.reduce(Money.new(0, "CAD")) do |sum, expense|
+      expenses.select { |e| e.type == "out" }.reduce(Money.new(0, "CAD")) do |sum, expense|
         sum + expense.amount
       end
     end
 
     def total_in
-      Money.new(0, "CAD")
+      expenses.select { |e| e.type == "in" }.reduce(Money.new(0, "CAD")) do |sum, expense|
+        sum + expense.amount
+      end
     end
 
     def order(attr)

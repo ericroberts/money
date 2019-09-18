@@ -69,6 +69,7 @@ module Forms
         amount: properties[:amount].coerced_value,
         description: properties[:description].coerced_value,
         category: properties[:category].coerced_value,
+        type: properties[:type].coerced_value,
       )
     end
 

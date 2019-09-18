@@ -10,8 +10,9 @@ module Models
     property amount : Money
     property description : String
     property category : String
+    property type : String
 
-    getter :amount, :description, :category
+    getter :amount, :description, :category, :type
 
     def initialize(
       id : String,
@@ -19,12 +20,14 @@ module Models
       amount : Money,
       description : String,
       category : String,
+      type : String,
     )
       @id = id
       @date = date
       @amount = amount
       @description = description
       @category = category
+      @type = type
     end
   end
 end

@@ -15,6 +15,7 @@ module Repositories
               amount: Money.from_json(expense_json["amount"].to_json),
               description: expense_json["description"].as_s,
               category: expense_json["category"].as_s,
+              type: expense_json["type"].as_s,
             )
           end
         )
@@ -35,6 +36,7 @@ module Repositories
       amount : Money,
       description : String,
       category : String,
+      type : String,
     )
       File.write(
         FILE_PATH,
@@ -46,6 +48,7 @@ module Repositories
               amount: amount,
               description: description,
               category: category,
+              type: type,
             )
           ]
         ).to_json

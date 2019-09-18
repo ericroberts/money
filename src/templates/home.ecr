@@ -20,6 +20,7 @@
             <th>Amount</th>
             <th>Description</th>
             <th>Category</th>
+            <th>Type</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -30,6 +31,7 @@
               <td><%= expense.amount %></td>
               <td><%= expense.description %></td>
               <td><%= expense.category %></td>
+              <td><%= expense.type %></td>
               <td class="actions">
                 <form method="post" action="/expenses/<%= expense.id %>">
                   <input type="hidden" name="_method" value="DELETE" />
