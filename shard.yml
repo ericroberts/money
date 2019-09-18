@@ -22,3 +22,7 @@ dependencies:
     github: askn/faker
   dotenv:
     github: gdotdesign/cr-dotenv
+  db:
+    github: crystal-lang/crystal-db
+  sqlite3:
+    github: crystal-lang/crystal-sqlite3
